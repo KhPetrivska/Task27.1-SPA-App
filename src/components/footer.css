@@ -1,0 +1,11 @@
+.footer-container{
+    position: fixed; 
+    bottom: 0; 
+    background-color: rgba(248, 180, 77, 1);
+    width: 100%;
+    padding: 10px 30px;
+}
+
+.footer-text {
+    color: black;
+}
