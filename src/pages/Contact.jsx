@@ -1,10 +1,10 @@
 import React from "react";
 import "./contact.css";
-import { ThemeContext } from '../units/ThemeContext';
+import { ThemeContext } from "../units/ThemeContext";
 import { useContext } from "react";
 
 const Contact = () => {
-    const { mode } = useContext(ThemeContext); 
+  const { mode } = useContext(ThemeContext);
   return (
     <div className="contact-container">
       <div className="contact-content">

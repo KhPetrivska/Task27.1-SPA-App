@@ -1,16 +1,15 @@
-.contact-container{
-    display: flex;
-    justify-content: center;
-    align-content: center;
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 
-.contact-content{
-    width: 70%;
-   text-align: center;
-   margin: 50px;
- 
+.contact-content {
+  width: 70%;
+  text-align: center;
+  margin: 50px;
 }
 
-.contacts-info{
-    margin: 200px;
+.contacts-info {
+  margin: 200px;
 }
