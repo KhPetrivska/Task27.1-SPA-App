@@ -66,3 +66,8 @@ h1 {
 .todo-item__description {
   color: black;
 }
+.form-error{
+  color: red;
+  position: related;
+  padding: 0px 10px;
+}

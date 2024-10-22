@@ -2,6 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../units/ThemeContext";
 import "./todo.css";
 import "../App.css";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+
+const MIN_TEXT_LENGTH = 5;
 
 const ToDo = () => {
   const { mode } = useContext(ThemeContext);
@@ -9,7 +12,6 @@ const ToDo = () => {
   const [taskStorage, setTaskStorage] = useState(() => {
     return JSON.parse(localStorage.getItem("TaskList")) || [];
   });
-  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     localStorage.setItem("TaskList", JSON.stringify(taskStorage));
@@ -17,17 +19,20 @@ const ToDo = () => {
 
   const generateTaskBlock = (text, check) => {
     const newTask = { id: Date.now(), task: text, completed: check };
-    setTaskStorage((prev) => [...prev, newTask]);
+    setTaskStorage((prev) => [newTask, ...prev]);
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    if (inputValue.trim() === "") {
-      alert("Empty input cannot be submitted");
-      return;
+  const validate = (values) => {
+    const errors = {};
+    if (values.text.length < MIN_TEXT_LENGTH) {
+      errors.text = `Task must be at least ${MIN_TEXT_LENGTH} characters long`;
     }
-    generateTaskBlock(inputValue, false);
-    setInputValue("");
+    return errors;
+  };
+
+  const onSubmit = (values, { resetForm }) => {
+    generateTaskBlock(values.text, false);
+    resetForm();
   };
 
   const handleDelete = (id) => {
@@ -45,17 +50,25 @@ const ToDo = () => {
   return (
     <div className={`container ${mode}`}>
       <h1 className="todo-title">Task List 💯🚀🎯</h1>
-      <form className="form js--form" onSubmit={handleFormSubmit}>
-        <input
-          type="text"
-          name="value"
-          required
-          className="form__input js--form__input"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        <button className="form__btn">Add</button>
-      </form>
+      <Formik
+        initialValues={{ text: "" }}
+        validate={validate}
+        onSubmit={onSubmit}
+      >
+        <Form >
+          <div className="form js--form">
+            <Field
+              type="text"
+              name="text"
+              className="form__input js--form__input"
+            />
+              <button type="submit" className="form__btn">
+                Add
+              </button>
+          </div>
+          <ErrorMessage name="text" component="div" className="form-error" />
+        </Form>
+      </Formik>
       <ul className="js--todos-wrapper">
         {taskStorage.map(({ id, task, completed }) => (
           <TodoItem
